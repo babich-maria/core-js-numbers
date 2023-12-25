@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-bitwise */
 /* *******************************************************************************************
  *                                                                                           *
  * Please read the following tutorial before implementing tasks:                              *
@@ -280,8 +282,18 @@ function getSumToN(n) {
  *   202 => 4  // (2+0+2)
  *   5   => 5  // 5
  */
-function getSumOfDigits(/* num */) {
-  throw new Error('Not implemented');
+function getSumOfDigits(num) {
+  if (!Number.isInteger(num) || num < 0) {
+    throw new Error('Input must be a non-negative integer.');
+  }
+
+  // Convert the number to a string to iterate through its digits
+  const digits = num.toString().split('').map(Number);
+
+  // Calculate the sum of digits using Array.reduce
+  const sum = digits.reduce((acc, digit) => acc + digit, 0);
+
+  return sum;
 }
 
 /**
@@ -295,8 +307,13 @@ function getSumOfDigits(/* num */) {
  *   16  => true
  *   15  => false
  */
-function isPowerOfTwo(/* num */) {
-  throw new Error('Not implemented');
+function isPowerOfTwo(num) {
+  if (typeof num !== 'number' || num <= 0) {
+    throw new Error('Input must be a positive number.');
+  }
+
+  // Use bitwise AND to check if only one bit is set in binary representation
+  return (num & (num - 1)) === 0;
 }
 
 /**
@@ -323,8 +340,19 @@ function getSine(num) {
  * 255, 16 => 'ff'
  * 2, 2    => '10'
  */
-function numberToStringInBase(/* number, base */) {
-  throw new Error('Not implemented');
+function numberToStringInBase(number, base) {
+  if (
+    typeof number !== 'number' ||
+    typeof base !== 'number' ||
+    base < 2 ||
+    base > 36
+  ) {
+    throw new Error(
+      'Invalid input. Number should be a non-negative integer and base should be between 2 and 36.'
+    );
+  }
+
+  return number.toString(base);
 }
 
 /**
@@ -337,8 +365,18 @@ function numberToStringInBase(/* number, base */) {
  * @example:
  * 12345, 2    => '1.23e+4'
  */
-function toExponential(/* number, fractionDigits */) {
-  throw new Error('Not implemented');
+function toExponential(number, fractionDigits) {
+  if (
+    typeof number !== 'number' ||
+    !Number.isInteger(fractionDigits) ||
+    fractionDigits < 0
+  ) {
+    throw new Error(
+      'Invalid input. Number should be a valid number, and fractionDigits should be a non-negative integer.'
+    );
+  }
+
+  return number.toExponential(fractionDigits);
 }
 
 /**
@@ -352,8 +390,18 @@ function toExponential(/* number, fractionDigits */) {
  * 12345, 2    => '12345.00'
  * 12.345, 1   => '12.3'
  */
-function toFixed(/* number, fractionDigits */) {
-  throw new Error('Not implemented');
+function toFixed(number, fractionDigits) {
+  if (
+    typeof number !== 'number' ||
+    !Number.isInteger(fractionDigits) ||
+    fractionDigits < 0
+  ) {
+    throw new Error(
+      'Invalid input. Number should be a valid number, and fractionDigits should be a non-negative integer.'
+    );
+  }
+
+  return number.toFixed(fractionDigits);
 }
 
 /**
@@ -368,8 +416,18 @@ function toFixed(/* number, fractionDigits */) {
  * 12345, 7    => '12345.00'
  * 12.345, 4   => '12.35'
  */
-function toPrecision(/* number, precision */) {
-  throw new Error('Not implemented');
+function toPrecision(number, precision) {
+  if (
+    typeof number !== 'number' ||
+    !Number.isInteger(precision) ||
+    precision < 1
+  ) {
+    throw new Error(
+      'Invalid input. Number should be a valid number, and precision should be a positive integer.'
+    );
+  }
+
+  return number.toPrecision(precision);
 }
 
 /**
@@ -382,8 +440,14 @@ function toPrecision(/* number, precision */) {
  * new Number(5) => 5
  * Number(-5)    => -5
  */
-function getNumberValue(/* number */) {
-  throw new Error('Not implemented');
+function getNumberValue(number) {
+  if (!(number instanceof Number) && typeof number !== 'number') {
+    throw new Error(
+      'Invalid input. Expected a Number object or a primitive number.'
+    );
+  }
+
+  return Number(number);
 }
 
 /**
@@ -401,8 +465,8 @@ function getNumberValue(/* number */) {
  * 5        => true
  * '5'      => false
  */
-function isNumber(/* number */) {
-  throw new Error('Not implemented');
+function isNumber(number) {
+  return typeof number === 'number' && isFinite(number);
 }
 
 /**
@@ -416,8 +480,10 @@ function isNumber(/* number */) {
  * 5.1  => false
  * '5'  => false
  */
-function isInteger(/* number */) {
-  throw new Error('Not implemented');
+function isInteger(number) {
+  return (
+    typeof number === 'number' && isFinite(number) && Number.isInteger(number)
+  );
 }
 
 /**
@@ -430,8 +496,9 @@ function isInteger(/* number */) {
  * '4.567abcdefgh' => 4.567
  * 'abcdefgh'      => NaN
  */
-function getFloatOnString(/* str */) {
-  throw new Error('Not implemented');
+function getFloatOnString(str) {
+  const parsedFloat = parseFloat(str);
+  return isNaN(parsedFloat) ? NaN : parsedFloat;
 }
 
 /**
@@ -448,8 +515,9 @@ function getFloatOnString(/* str */) {
  * '1.234', 2           => 1
  * '10', 8              => 8
  */
-function getIntegerOnString(/* str, base */) {
-  throw new Error('Not implemented');
+function getIntegerOnString(str, base) {
+  const parsedInt = parseInt(str, base);
+  return isNaN(parsedInt) ? NaN : parsedInt;
 }
 
 /**
@@ -463,8 +531,8 @@ function getIntegerOnString(/* str, base */) {
  * 3.5      => false
  * 2 ** 53  => false
  */
-function isSafeInteger(/* number */) {
-  throw new Error('Not implemented');
+function isSafeInteger(number) {
+  return Number.isSafeInteger(number);
 }
 
 /**
@@ -477,8 +545,8 @@ function isSafeInteger(/* number */) {
  * 5.9  => 5
  * -5.1 => -6
  */
-function roundToSmallestInteger(/* number */) {
-  throw new Error('Not implemented');
+function roundToSmallestInteger(number) {
+  return Math.floor(number);
 }
 
 /**
@@ -491,8 +559,8 @@ function roundToSmallestInteger(/* number */) {
  * 5.1  => 6
  * -5.9 => -5
  */
-function roundToLargestInteger(/* number */) {
-  throw new Error('Not implemented');
+function roundToLargestInteger(number) {
+  return Math.ceil(number);
 }
 
 /**
